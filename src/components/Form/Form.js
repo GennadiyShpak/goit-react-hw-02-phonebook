@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import shortid from 'shortid';
+import s from './Form.module.css';
 
 const INITIAL_STATE = {
   name: '',
@@ -21,7 +22,10 @@ class Form extends Component {
 
   onSubmitHandler = e => {
     e.preventDefault();
-    this.props.onSubmit(this.state);
+    const { name, number } = this.state;
+    !name || !number
+      ? alert(`Some field are empty`)
+      : this.props.onSubmit(this.state);
     this.reset();
   };
 
@@ -31,27 +35,31 @@ class Form extends Component {
 
   render() {
     return (
-      <form onSubmit={this.onSubmitHandler}>
-        <label>
+      <form onSubmit={this.onSubmitHandler} className={s.a}>
+        <label className={s.label}>
           Name
           <input
             type="text"
             name="name"
             value={this.state.name}
             onChange={this.oninputHandler}
+            placeholder="Enter name"
           />
         </label>
-        <label>
+        <label className={s.label}>
           Number
           <input
             type="tel"
             name="number"
             value={this.state.number}
             onChange={this.oninputHandler}
+            placeholder="Enter phone number"
           />
         </label>
 
-        <button type="submit">Add contact</button>
+        <button type="submit" className={s.addBtn}>
+          Add contact
+        </button>
       </form>
     );
   }
