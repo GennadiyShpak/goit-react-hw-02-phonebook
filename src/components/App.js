@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import shortid from 'shortid';
 
 import ContactList from './ContactList';
 import Form from './Form';
@@ -13,12 +14,8 @@ class App extends Component {
   };
 
   formSubmitHandler = data => {
-    const { id, name, number } = data;
-    const contact = {
-      id,
-      name,
-      number,
-    };
+    const { name, number } = data;
+
     const arrContactsName = this.state.contacts.map(item => {
       return item.name.toLowerCase();
     });
@@ -27,6 +24,11 @@ class App extends Component {
       alert(`${name} is already in contacts`);
       return;
     } else {
+      const contact = {
+        id: shortid.generate(),
+        name,
+        number,
+      };
       this.setState(({ contacts }) => ({
         contacts: [...contacts, contact],
       }));
@@ -39,8 +41,9 @@ class App extends Component {
     }));
   };
 
-  onFilterChange = e => {
-    this.setState({ filter: e.target.value });
+  onFilterChange = ({ target }) => {
+    const { value } = target;
+    this.setState({ filter: value });
   };
 
   getFilterName = () => {
